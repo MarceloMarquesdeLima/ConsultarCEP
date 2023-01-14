@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WSCorreios;
 
 namespace ConsultarCEP
 {
@@ -25,10 +26,14 @@ namespace ConsultarCEP
                 {
                     try
                     {
-                        var endereco = ws.consultaCEPAsync(txtCep.Text.Trim());
+                        var endereco = ws.consultaCEPAsync(txtCep.Text.Trim()).Result;
 
+                        txtEstado.Text = endereco.@return.uf;
+                        txtCidade.Text = endereco.@return.cidade;
+                        txtBairro.Text = endereco.@return.bairro;
+                        txtRua.Text = endereco.@return.end;
                     }
-                    catch (Exception ex)
+                    catch (System.Exception ex)
                     {
                         MessageBox.Show(ex.Message, this.Text,MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
