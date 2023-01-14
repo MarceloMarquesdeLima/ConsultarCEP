@@ -16,5 +16,42 @@ namespace ConsultarCEP
         {
             InitializeComponent();
         }
+
+        private void btnConsultar_Click(object sender, EventArgs e)
+        {
+            if(!string.IsNullOrWhiteSpace(txtCep.Text))
+            {
+                using(var ws = new WSCorreios.AtendeClienteClient())
+                {
+                    try
+                    {
+                        var endereco = ws.consultaCEPAsync(txtCep.Text.Trim());
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, this.Text,MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Informe CEP Válido!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnLimpar_Click(object sender, EventArgs e)
+        {
+            txtEstado.Text = string.Empty;
+            txtCidade.Text = string.Empty;
+            txtBairro.Text = string.Empty;
+            txtRua.Text = string.Empty;
+            txtCep.Text = string.Empty;
+        }
+
+        private void btnSair_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
